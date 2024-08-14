@@ -20,7 +20,7 @@ const Navbar = () => {
           <Link to="/tags" className="hover:underline">
             Tags
           </Link>
-          <Link to="/profile" className="hover:underline">
+          <Link to="/UserProfile" className="hover:underline">
             Profile
           </Link>
         </div>
