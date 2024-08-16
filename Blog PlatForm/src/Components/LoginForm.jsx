@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth } from "firebase/auth";// Adjust import based on your project structure
+import { auth } from "../firebase"; // Adjust import based on your project structure
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 function LoginForm() {
@@ -13,7 +13,7 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      await signInWithEmailAndPassword(getAuth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       navigate("/"); // Redirect to homepage or dashboard after successful login
     } catch (error) {
       setError(error.message); // Display error message if login fails

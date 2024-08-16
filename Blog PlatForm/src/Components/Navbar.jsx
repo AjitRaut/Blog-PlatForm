@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { getAuth } from "firebase/auth";// Import auth from firebase.js
+import { auth } from "../firebase"; // Import auth from firebase.js
 import { signOut } from "firebase/auth";
 
 function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const user = getAuth.currentUser; // Check if the user is authenticated
+  const user = auth.currentUser; // Check if the user is authenticated
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -15,7 +15,7 @@ function Navbar() {
   };
 
   const handleSignOut = () => {
-    signOut(getAuth)
+    signOut(auth)
       .then(() => {
         // Sign-out successful.
       })
