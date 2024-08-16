@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { auth } from "../firebase"; // Import auth from firebase.js
+import { getAuth } from "firebase/auth";// Import auth from firebase.js
 import { signOut } from "firebase/auth";
 
 function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const user = auth.currentUser; // Check if the user is authenticated
+  const user = getAuth.currentUser; // Check if the user is authenticated
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -15,7 +15,7 @@ function Navbar() {
   };
 
   const handleSignOut = () => {
-    signOut(auth)
+    signOut(getAuth)
       .then(() => {
         // Sign-out successful.
       })
@@ -35,15 +35,15 @@ function Navbar() {
             </Link>
           </div>
           <div className="hidden md:flex space-x-4">
-            <NavLink to="/" className="text-white hover:text-gray-300">
+            <Link to="/" className="text-white hover:text-gray-300">
               Home
-            </NavLink>
-            <NavLink to="/categories" className="text-white hover:text-gray-300">
+            </Link>
+            <Link to="/categories" className="text-white hover:text-gray-300">
               Categories
-            </NavLink>
-            <NavLink to="/tags" className="text-white hover:text-gray-300">
+            </Link>
+            <Link to="/tags" className="text-white hover:text-gray-300">
               Tags
-            </NavLink>
+            </Link>
             {user ? (
               <div className="relative">
                 <button
@@ -54,12 +54,12 @@ function Navbar() {
                 </button>
                 {isMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg shadow-lg">
-                    <NavLink to="/profile" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
                       My Profile
-                    </NavLink>
-                    <NavLink to="/settings" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    </Link>
+                    <Link to="/settings" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
                       Settings
-                    </NavLink>
+                    </Link>
                     <button
                       onClick={handleSignOut}
                       className="block px-4 py-2 text-left w-full hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -71,12 +71,12 @@ function Navbar() {
               </div>
             ) : (
               <>
-                <NavLink to="/login" className="text-white hover:text-gray-300">
+                <Link to="/login" className="text-white hover:text-gray-300">
                   Login
-                </NavLink>
-                <NavLink to="/signup" className="text-white hover:text-gray-300">
+                </Link>
+                <Link to="/signup" className="text-white hover:text-gray-300">
                   Sign Up
-                </NavLink>
+                </Link>
               </>
             )}
           </div>

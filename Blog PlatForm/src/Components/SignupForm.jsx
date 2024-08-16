@@ -1,14 +1,29 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth"; // Adjust import based on your project structure
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 function SignupForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle signup logic here
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      await createUserWithEmailAndPassword(getAuth, email, password);
+      navigate("/login"); // Redirect to login page after successful signup
+    } catch (error) {
+      setError(error.message); // Display error message if signup fails
+    }
   };
 
   return (
@@ -16,6 +31,11 @@ function SignupForm() {
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Sign Up</h2>
         <form onSubmit={handleSubmit}>
+          {error && (
+            <div className="mb-4 text-red-500 text-center">
+              {error}
+            </div>
+          )}
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Email Address
