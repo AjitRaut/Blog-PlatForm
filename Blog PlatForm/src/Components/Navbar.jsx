@@ -106,13 +106,13 @@ function Navbar() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden">
-            <NavLink
+            <Link
               to="/"
               className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
               onClick={() => setIsMenuOpen(false)}
             >
               Home
-            </NavLink>
+            </Link>
             <NavLink
               to="/categories"
               className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
@@ -129,20 +129,20 @@ function Navbar() {
             </NavLink>
             {user ? (
               <>
-                <NavLink
+                <Link
                   to="/profile"
                   className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Profile
-                </NavLink>
-                <NavLink
+                </Link>
+                <Link
                   to="/settings"
                   className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Settings
-                </NavLink>
+                </Link>
                 <button
                   onClick={() => {
                     handleSignOut();
@@ -155,20 +155,20 @@ function Navbar() {
               </>
             ) : (
               <>
-                <NavLink
+                <Link
                   to="/login"
                   className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Login
-                </NavLink>
-                <NavLink
+                </Link>
+                <Link
                   to="/signup"
                   className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Sign Up
-                </NavLink>
+                </Link>
               </>
             )}
           </div>

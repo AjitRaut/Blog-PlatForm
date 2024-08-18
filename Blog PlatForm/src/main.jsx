@@ -2,9 +2,9 @@ import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import * as ReactDOM from "react-dom/client";
 import App from './App.jsx'
 import './index.css'
-import UserProfile from "./Components/UserProfile.jsx";
 import LoginForm from "./Components/LoginForm.jsx";
 import SignupForm from "./Components/SignupForm.jsx";
+import UserProfile from "./Components/UserProfile.jsx";
 const AppRouter = createBrowserRouter([
     {
       path: "/",
@@ -22,6 +22,10 @@ const AppRouter = createBrowserRouter([
         {
           path : "/signup",
           element : <SignupForm />
+        },
+        {
+          path : "/userprofile",
+          element : <UserProfile />
         }
       ],
     },
