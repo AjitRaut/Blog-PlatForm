@@ -1,17 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { auth } from "../firebase"; // Import the initialized auth
+import { auth, db } from "../firebase"; // Import auth and db
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
+  const [username, setUsername] = useState("Anonymous User");
 
   useEffect(() => {
-    // Listen for authentication state changes
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+
+        try {
+          // Fetch the user's data from Firestore
+          const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+          if (userDoc.exists()) {
+            setUsername(userDoc.data().username || "Anonymous User");
+          } else {
+            console.log("No such document!");
+          }
+        } catch (err) {
+          console.error("Error fetching user data:", err);
+        }
+      } else {
+        setUser(null);
+        setUsername("Anonymous User");
+      }
     });
 
-    // Clean up subscription on unmount
     return () => unsubscribe();
   }, []);
 
@@ -33,7 +50,7 @@ const UserProfile = () => {
           src={user.photoURL || "https://via.placeholder.com/150"}
           alt="Profile"
         />
-        <h3 className="mt-4 text-xl font-medium">{user.displayName || "Anonymous User"}</h3>
+        <h3 className="mt-4 text-xl font-medium">{username}</h3>
         <p className="mt-2 text-gray-600">{user.email}</p>
       </div>
     </div>
