@@ -107,7 +107,7 @@ function Navbar() {
         {isMenuOpen && (
           <div className="md:hidden">
             <Link
-              to="/"
+              to="/home"
               className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
               onClick={() => setIsMenuOpen(false)}
             >
