@@ -5,7 +5,8 @@ import './index.css'
 import LoginForm from "./Components/LoginForm.jsx";
 import SignupForm from "./Components/SignupForm.jsx";
 import UserProfile from "./Components/UserProfile.jsx";
-import Home from "./Home.jsx";
+import Home from "./Components/Home.jsx";
+import CategoriesSection from "./Components/CategoriesSection.jsx";
 const AppRouter = createBrowserRouter([
     {
       path: "/",
@@ -14,6 +15,10 @@ const AppRouter = createBrowserRouter([
         {
           path : "/",
           element : <Home/>
+        },
+        {
+          path : "categories",
+          element : <CategoriesSection />
         },
         {
           path : "/login",

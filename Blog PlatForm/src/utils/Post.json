@@ -1,0 +1,47 @@
+[
+    {
+      "id": 1,
+      "title": "Exploring the Beauty of Nature",
+      "author": "Jane Doe",
+      "date": "2024-08-20",
+      "excerpt": "Discover the breathtaking landscapes and natural wonders around the world.",
+      "thumbnail": "https://via.placeholder.com/150",
+      "category": "Travel",
+      "tags": ["Nature", "Travel", "Adventure"],
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa."
+    },
+    {
+      "id": 2,
+      "title": "The Future of Technology",
+      "author": "John Smith",
+      "date": "2024-08-19",
+      "excerpt": "A deep dive into the latest advancements in technology and what the future holds.",
+      "thumbnail": "https://via.placeholder.com/150",
+      "category": "Tech",
+      "tags": ["Technology", "Innovation", "Future"],
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa."
+    },
+    {
+      "id": 3,
+      "title": "Healthy Eating Habits",
+      "author": "Alice Johnson",
+      "date": "2024-08-18",
+      "excerpt": "Tips and tricks for maintaining a healthy diet and lifestyle.",
+      "thumbnail": "https://via.placeholder.com/150",
+      "category": "Health",
+      "tags": ["Health", "Nutrition", "Wellness"],
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa."
+    },
+    {
+      "id": 4,
+      "title": "The Art of Minimalism",
+      "author": "Michael Brown",
+      "date": "2024-08-17",
+      "excerpt": "How to embrace a minimalist lifestyle and find joy in simplicity.",
+      "thumbnail": "https://via.placeholder.com/150",
+      "category": "Lifestyle",
+      "tags": ["Minimalism", "Lifestyle", "Well-being"],
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa."
+    }
+  ]
+  
