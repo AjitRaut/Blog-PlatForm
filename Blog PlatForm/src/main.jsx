@@ -5,14 +5,15 @@ import './index.css'
 import LoginForm from "./Components/LoginForm.jsx";
 import SignupForm from "./Components/SignupForm.jsx";
 import UserProfile from "./Components/UserProfile.jsx";
+import Home from "./Home.jsx";
 const AppRouter = createBrowserRouter([
     {
       path: "/",
       element: <App />,
       children: [
         {
-          path : "/home", 
-          element : <App />
+          path : "/",
+          element : <Home/>
         },
         {
           path : "/login",

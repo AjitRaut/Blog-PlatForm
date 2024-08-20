@@ -1,13 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { auth } from "../firebase"; // Import auth from firebase.js
-import { signOut } from "firebase/auth";
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import HeroSection from "./HeroSection";
 
 function Navbar() {
+  const [user, setUser] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const user = auth.currentUser; // Check if the user is authenticated
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (event.target.closest(".profile-dropdown") === null) {
+        setIsMenuOpen(false);
+      }
+    }
+    if (isMenuOpen) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [isMenuOpen]);
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -45,7 +68,7 @@ function Navbar() {
               Tags
             </Link>
             {user ? (
-              <div className="relative">
+              <div className="relative profile-dropdown">
                 <button
                   className="text-white hover:text-gray-300 focus:outline-none"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -54,10 +77,18 @@ function Navbar() {
                 </button>
                 {isMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg shadow-lg">
-                    <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
                       My Profile
                     </Link>
-                    <Link to="/settings" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <Link
+                      to="/settings"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
                       Settings
                     </Link>
                     <button
@@ -176,6 +207,8 @@ function Navbar() {
       </div>
     </nav>
   );
+
+
 }
 
 export default Navbar;
