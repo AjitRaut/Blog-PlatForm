@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
+import { auth, db } from "../firebase"; // Import auth and db
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import postsData from '../utils/Post.json'; // Adjust the path based on your folder structure
 import FeaturedPosts from "./FeturedPost";
 
 function HeroSection() {
+    const [username, setUsername] = useState("Unknown User");
     return (
         <>
         <div className="bg-blue-800 dark:bg-gray-900 text-white p-10 text-center">

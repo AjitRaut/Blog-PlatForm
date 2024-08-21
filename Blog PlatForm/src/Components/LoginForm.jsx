@@ -14,9 +14,9 @@ function LoginForm() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/"); // Redirect to homepage or dashboard after successful login
+      navigate("/");
     } catch (error) {
-      setError(error.message); // Display error message if login fails
+      setError(error.message);
     }
   };
 

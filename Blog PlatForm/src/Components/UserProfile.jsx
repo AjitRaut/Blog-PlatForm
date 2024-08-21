@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { auth, db } from "../firebase"; // Import auth and db
+import { auth, db } from "../firebase"; 
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("Anonymous User");
+  const [username, setUsername] = useState("Unkonown User");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -13,10 +13,9 @@ const UserProfile = () => {
         setUser(currentUser);
 
         try {
-          // Fetch the user's data from Firestore
           const userDoc = await getDoc(doc(db, "users", currentUser.uid));
           if (userDoc.exists()) {
-            setUsername(userDoc.data().username || "Anonymous User");
+            setUsername(userDoc.data().username || "Unkonown User");
           } else {
             console.log("No such document!");
           }
@@ -25,7 +24,7 @@ const UserProfile = () => {
         }
       } else {
         setUser(null);
-        setUsername("Anonymous User");
+        setUsername("Unkonown User");
       }
     });
 
