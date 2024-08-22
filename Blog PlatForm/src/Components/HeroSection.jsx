@@ -5,6 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import postsData from '../utils/Post.json'; // Adjust the path based on your folder structure
 import FeaturedPosts from "./FeturedPost";
+import PostForm from "./PostForm";
 
 function HeroSection() {
     const [user, setUser] = useState(null);
@@ -44,6 +45,7 @@ function HeroSection() {
                 Get Started
             </Link>
         </div>
+        <PostForm />
     <FeaturedPosts posts={postsData} />
         </>
     );
