@@ -88,7 +88,7 @@ const PostForm = () => {
     const categories = ['Technology', 'Lifestyle', 'Education', 'Health'];
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-full max-w-lg mx-auto mt-8 dark:bg-gray-800">
+        <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-full max-w-lg mx-auto mt-8 dark:bg-gray-900">
             <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Create a Post</h2>
             {error && <p className="text-red-500">{error}</p>}
             <div className="mb-4">
@@ -97,7 +97,7 @@ const PostForm = () => {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="w-full p-2 border border-gray-300 rounded dark:bg-gray-800 dark:border-gray-600 dark:text-white"
                 />
             </div>
             <div className="mb-4">
@@ -105,7 +105,7 @@ const PostForm = () => {
                 <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="w-full p-2 border border-gray-300 rounded dark:bg-gray-800 dark:border-gray-600 dark:text-white"
                     rows="4"
                 />
             </div>
@@ -114,7 +114,7 @@ const PostForm = () => {
                 <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="w-full p-2 border border-gray-300 rounded dark:bg-gray-800 dark:border-gray-600 dark:text-white"
                 >
                     <option value="">Select a category</option>
                     {categories.map((cat) => (
@@ -129,7 +129,7 @@ const PostForm = () => {
                 <input
                     type="file"
                     onChange={handleImageChange}
-                    className="w-full p-2 border border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="w-full p-2 border border-gray-300 rounded dark:bg-gray-800 dark:border-gray-600 dark:text-white"
                 />
             </div>
             {uploading && (
@@ -137,20 +137,20 @@ const PostForm = () => {
                     <div className="relative pt-1">
                         <div className="flex mb-2 items-center justify-between">
                             <div>
-                                <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+                                <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200 dark:bg-blue-600 dark:text-blue-200">
                                     Uploading...
                                 </span>
                             </div>
                             <div className="text-right">
-                                <span className="text-xs font-semibold inline-block text-blue-600">
+                                <span className="text-xs font-semibold inline-block text-blue-600 dark:text-blue-200">
                                     {Math.round(progress)}%
                                 </span>
                             </div>
                         </div>
-                        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+                        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200 dark:bg-blue-800">
                             <div
                                 style={{ width: `${progress}%` }}
-                                className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+                                className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 dark:bg-blue-400"
                             ></div>
                         </div>
                     </div>
@@ -158,7 +158,7 @@ const PostForm = () => {
             )}
             <button 
                 type="submit" 
-                className="bg-blue-500 text-white px-4 py-2 rounded dark:bg-blue-600"
+                className="bg-blue-500 text-white px-4 py-2 rounded dark:bg-blue-600 dark:text-white"
                 disabled={uploading}
             >
                 {uploading ? 'Uploading...' : 'Add Post'}
