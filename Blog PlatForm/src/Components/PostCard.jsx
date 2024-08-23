@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 
 const PostCard = ({ post }) => {
+    console.log(post)
     const [showFullContent, setShowFullContent] = useState(false);
 
     const toggleContent = () => {
         setShowFullContent(!showFullContent);
     };
+
+    const formatDate = (date) => {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        return new Intl.DateTimeFormat('en-GB', options).format(date);
+    };
+    const formattedDate = post.createdAt ? formatDate(new Date(post.createdAt.toDate())) : 'Date not available';
 
     return (
         <div className="bg-white p-4 rounded shadow-md mb-4 dark:bg-gray-800">
@@ -23,7 +30,7 @@ const PostCard = ({ post }) => {
                 {showFullContent ? 'Read Less' : 'Read More'}
             </button>
             {/* <p className="mt-2 text-gray-600 dark:text-gray-400">Category: {post.category}</p> */}
-            <p className="mt-2 text-gray-600 dark:text-gray-400">Author: {post.author}</p> <span>Date :{post?.createdAt}</span>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">By {post.author} | {formattedDate}</p>
         </div>
     );
 };
