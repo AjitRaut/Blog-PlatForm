@@ -1,46 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth, storage } from '../firebase';
-import { doc, getDoc } from "firebase/firestore";
-import { collection, addDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { useNavigate } from 'react-router-dom';
 
 const PostForm = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [image, setImage] = useState(null);
-    const [category, setCategory] = useState(''); // Updated state for category
+    const [category, setCategory] = useState('');
     const [error, setError] = useState('');
     const [uploading, setUploading] = useState(false);
     const [progress, setProgress] = useState(0);
 
-    // Fetch user display name on component mount
     const [user, setUser] = useState(null);
     const [username, setUsername] = useState("");
-    
+    const navigate = useNavigate();
+
     useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            if (currentUser) {
+                setUser(currentUser);
 
-        try {
-          const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-          if (userDoc.exists()) {
-            setUsername(userDoc.data().username || "");
-          } else {
-            console.log("No such document!");
-          }
-        } catch (err) {
-          console.error("Error fetching user data:", err);
-        }
-      } else {
-        setUser(null);
-        setUsername("");
-      }
-    });
+                try {
+                    const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+                    if (userDoc.exists()) {
+                        setUsername(userDoc.data().username || "");
+                    } else {
+                        // Redirect to login if user is authenticated but not in the database
+                        console.log("User not found in database. Redirecting to login.");
+                        navigate('/login');
+                    }
+                } catch (err) {
+                    console.error("Error fetching user data:", err);
+                }
+            } else {
+                setUser(null);
+                setUsername("");
+                navigate('/login'); // Redirect to login if not authenticated
+            }
+        });
 
-    return () => unsubscribe();
-  }, []);
+        return () => unsubscribe();
+    }, [navigate]);
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
@@ -57,7 +60,6 @@ const PostForm = () => {
         setUploading(true);
         let imageUrl = '';
 
-        // Upload image to Firebase Storage
         if (image) {
             const imageRef = ref(storage, `posts/${image.name}-${Date.now()}`);
             const uploadTask = uploadBytesResumable(imageRef, image);
@@ -88,13 +90,13 @@ const PostForm = () => {
                 content,
                 imageUrl,
                 author: username,
-                category, // Save category to Firestore
+                category,
                 createdAt: new Date(),
             });
             setTitle('');
             setContent('');
             setImage(null);
-            setCategory(''); // Reset category
+            setCategory('');
             setError('');
             setUploading(false);
             setProgress(0);
@@ -105,7 +107,6 @@ const PostForm = () => {
         }
     };
 
-    // Example categories list
     const categories = ['Technology', 'Lifestyle', 'Education', 'Health'];
 
     return (
