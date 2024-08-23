@@ -5,10 +5,11 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import postsData from '../utils/Post.json'; // Adjust the path based on your folder structure
 import FeaturedPosts from "./FeturedPost";
+import PostForm from "./PostForm";
 
 function HeroSection() {
     const [user, setUser] = useState(null);
-    const [username, setUsername] = useState("Unknown User");
+    const [username, setUsername] = useState("");
     
     useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -18,7 +19,7 @@ function HeroSection() {
         try {
           const userDoc = await getDoc(doc(db, "users", currentUser.uid));
           if (userDoc.exists()) {
-            setUsername(userDoc.data().username || "Unkonown User");
+            setUsername(userDoc.data().username || "");
           } else {
             console.log("No such document!");
           }
@@ -27,7 +28,7 @@ function HeroSection() {
         }
       } else {
         setUser(null);
-        setUsername("Unkonown User");
+        setUsername("");
       }
     });
 
@@ -35,7 +36,7 @@ function HeroSection() {
   }, []);
 
 
-    return ( user &&
+    return (
         <>
         <div className="bg-blue-800 dark:bg-gray-900 text-white p-10 text-center">
             <h1 className="text-4xl font-bold mb-4">Welcome to MyBlog {username}</h1>
@@ -44,6 +45,7 @@ function HeroSection() {
                 Get Started
             </Link>
         </div>
+        <PostForm />
     <FeaturedPosts posts={postsData} />
         </>
     );

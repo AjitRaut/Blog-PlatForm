@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth, storage } from '../firebase';
+import { doc, getDoc } from "firebase/firestore";
 import { collection, addDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const PostForm = () => {
@@ -13,13 +15,32 @@ const PostForm = () => {
     const [progress, setProgress] = useState(0);
 
     // Fetch user display name on component mount
-    const [username, setUsername] = useState('');
-
+    const [user, setUser] = useState(null);
+    const [username, setUsername] = useState("");
+    
     useEffect(() => {
-        if (auth.currentUser) {
-            setUsername(auth.currentUser.displayName || auth.currentUser.email);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+
+        try {
+          const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+          if (userDoc.exists()) {
+            setUsername(userDoc.data().username || "");
+          } else {
+            console.log("No such document!");
+          }
+        } catch (err) {
+          console.error("Error fetching user data:", err);
         }
-    }, []);
+      } else {
+        setUser(null);
+        setUsername("");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
