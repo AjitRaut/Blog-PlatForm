@@ -23,7 +23,7 @@ const PostCard = ({ post }) => {
                 {showFullContent ? 'Read Less' : 'Read More'}
             </button>
             {/* <p className="mt-2 text-gray-600 dark:text-gray-400">Category: {post.category}</p> */}
-            <p className="mt-2 text-gray-600 dark:text-gray-400">Author: {post.author}</p>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">Author: {post.author}</p> <span>Date :{post?.createdAt}</span>
         </div>
     );
 };
