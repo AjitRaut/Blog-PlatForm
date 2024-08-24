@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { doc, updateDoc, arrayUnion, increment, serverTimestamp, getDoc } from "firebase/firestore";
+import { FaHeart, FaRegHeart, FaThumbsDown, FaRegThumbsDown } from "react-icons/fa";
+import { doc, updateDoc, arrayUnion, arrayRemove, increment, serverTimestamp, getDoc } from "firebase/firestore";
 
 const PostCard = ({ post }) => {
   const [showFullContent, setShowFullContent] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState(post.comments || []);
   const [likes, setLikes] = useState(post.likes || 0);
+  const [dislikes, setDislikes] = useState(post.dislikes || 0);
+  const [hasLiked, setHasLiked] = useState(false);
+  const [hasDisliked, setHasDisliked] = useState(false);
 
   useEffect(() => {
     const fetchPostData = async () => {
@@ -17,6 +21,10 @@ const PostCard = ({ post }) => {
           const data = postDoc.data();
           setComments(data.comments || []);
           setLikes(data.likes || 0);
+          setDislikes(data.dislikes || 0);
+          const currentUser = post.author || "Anonymous"; // Replace with actual user ID
+          setHasLiked(data.likers?.includes(currentUser) || false);
+          setHasDisliked(data.dislikers?.includes(currentUser) || false);
         } else {
           console.log("No such document!");
         }
@@ -71,45 +79,37 @@ const PostCard = ({ post }) => {
       const currentUser = post.author || "Anonymous";
       const optimisticComment = {
         text: comment,
-        date: new Date(), // Use local date/time for optimistic UI update
+        date: new Date(),
         author: currentUser,
       };
 
-      // Optimistically update the UI
       setComments([...comments, optimisticComment]);
-      setComment(""); // Clear the comment input right away
+      setComment("");
 
       try {
         const postRef = doc(db, "posts", post.id);
-
-        // Update the document with serverTimestamp
         await updateDoc(postRef, {
           commentTimestamp: serverTimestamp(),
         });
 
-        // Get the updated timestamp from Firestore
         const postDoc = await getDoc(postRef);
         const currentTimestamp = postDoc.data().commentTimestamp;
 
-        // Create the new comment with the correct timestamp from Firestore
         const newComment = {
           text: comment,
-          date: currentTimestamp, // Use the fetched server timestamp
+          date: currentTimestamp,
           author: currentUser,
         };
 
-        // Add the new comment to Firestore using arrayUnion
         await updateDoc(postRef, {
           comments: arrayUnion(newComment),
         });
 
-        // Re-fetch comments to ensure everything is synced
         if (postDoc.exists()) {
           setComments(postDoc.data().comments || []);
         }
       } catch (error) {
         console.error("Error adding comment: ", error);
-        // If an error occurs, remove the optimistic comment (optional)
         setComments((prevComments) =>
           prevComments.filter((c) => c !== optimisticComment)
         );
@@ -120,17 +120,60 @@ const PostCard = ({ post }) => {
   const handleLike = async () => {
     try {
       const postRef = doc(db, "posts", post.id);
-      await updateDoc(postRef, {
-        likes: increment(1)
-      });
+      const currentUser = post.author || "Anonymous"; // Replace with actual user ID
 
-      // Re-fetch likes after liking the post
-      const postDoc = await getDoc(postRef);
-      if (postDoc.exists()) {
-        setLikes(postDoc.data().likes || 0);
+      if (hasLiked) {
+        await updateDoc(postRef, {
+          likes: increment(-1),
+          likers: arrayRemove(currentUser),
+        });
+        setHasLiked(false);
+        setLikes(likes - 1);
+      } else {
+        await updateDoc(postRef, {
+          likes: increment(1),
+          likers: arrayUnion(currentUser),
+          dislikers: arrayRemove(currentUser),
+        });
+        setHasLiked(true);
+        setHasDisliked(false);
+        setLikes(likes + 1);
+        if (hasDisliked) {
+          setDislikes(dislikes - 1);
+        }
       }
     } catch (error) {
-      console.error("Error liking post: ", error);
+      console.error("Error handling like: ", error);
+    }
+  };
+
+  const handleDislike = async () => {
+    try {
+      const postRef = doc(db, "posts", post.id);
+      const currentUser = post.author || "Anonymous"; // Replace with actual user ID
+
+      if (hasDisliked) {
+        await updateDoc(postRef, {
+          dislikes: increment(-1),
+          dislikers: arrayRemove(currentUser),
+        });
+        setHasDisliked(false);
+        setDislikes(dislikes - 1);
+      } else {
+        await updateDoc(postRef, {
+          dislikes: increment(1),
+          dislikers: arrayUnion(currentUser),
+          likers: arrayRemove(currentUser),
+        });
+        setHasDisliked(true);
+        setHasLiked(false);
+        setDislikes(dislikes + 1);
+        if (hasLiked) {
+          setLikes(likes - 1);
+        }
+      }
+    } catch (error) {
+      console.error("Error handling dislike: ", error);
     }
   };
 
@@ -160,9 +203,20 @@ const PostCard = ({ post }) => {
       <p className="mt-2 text-gray-600 dark:text-gray-400">
         By {post.author} | {formattedDate}
       </p>
-      <div className="mt-4">
-        <button onClick={handleLike} className="text-blue-500 dark:text-blue-400">
-          Like {likes}
+      <div className="mt-4 flex space-x-4">
+        <button
+          onClick={handleLike}
+          className={`text-lg ${hasLiked ? 'text-red-500' : 'text-blue-500'} dark:text-blue-400`}
+        >
+          {hasLiked ? <FaHeart className="w-4 h-4" /> : <FaRegHeart className="w-4 h-4" />}
+          {likes}
+        </button>
+        <button
+          onClick={handleDislike}
+          className={`text-lg ${hasDisliked ? 'text-red-500' : 'text-gray-500'} dark:text-gray-400`}
+        >
+          {hasDisliked ? <FaThumbsDown className="w-4 h-4" /> : <FaRegThumbsDown className="w-4 h-4" />}
+          {dislikes}
         </button>
       </div>
       <div className="mt-4">
