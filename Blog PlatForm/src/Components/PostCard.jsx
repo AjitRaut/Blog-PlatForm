@@ -77,45 +77,38 @@ const PostCard = ({ post }) => {
   const handleAddComment = async () => {
     if (comment.trim()) {
       const currentUser = post.author || "Anonymous";
-      const optimisticComment = {
+      const newComment = {
         text: comment,
         date: new Date(),
         author: currentUser,
       };
-
-      setComments([...comments, optimisticComment]);
+  
+      // Optimistically update the UI
+      setComments((prevComments) => [...prevComments, newComment]);
       setComment("");
-
+  
       try {
         const postRef = doc(db, "posts", post.id);
-        await updateDoc(postRef, {
-          commentTimestamp: serverTimestamp(),
-        });
-
-        const postDoc = await getDoc(postRef);
-        const currentTimestamp = postDoc.data().commentTimestamp;
-
-        const newComment = {
-          text: comment,
-          date: currentTimestamp,
-          author: currentUser,
-        };
-
+  
+        // Update Firestore with the new comment
         await updateDoc(postRef, {
           comments: arrayUnion(newComment),
         });
-
+  
+        // Fetch updated post data to ensure consistency
+        const postDoc = await getDoc(postRef);
         if (postDoc.exists()) {
           setComments(postDoc.data().comments || []);
         }
       } catch (error) {
         console.error("Error adding comment: ", error);
-        setComments((prevComments) =>
-          prevComments.filter((c) => c !== optimisticComment)
-        );
+  
+        // Rollback optimistic update if there's an error
+        setComments((prevComments) => prevComments.filter((c) => c !== newComment));
       }
     }
   };
+  
 
   const handleLike = async () => {
     try {
