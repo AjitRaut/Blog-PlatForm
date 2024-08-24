@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../firebase"; // Adjust import according to your setup
+import { db } from "../firebase";
 import { doc, updateDoc, arrayUnion, increment, serverTimestamp, getDoc } from "firebase/firestore";
 
 const PostCard = ({ post }) => {
@@ -33,8 +33,29 @@ const PostCard = ({ post }) => {
   };
 
   const formatDate = (date) => {
-    const options = { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" };
-    return new Intl.DateTimeFormat("en-GB", options).format(date);
+    if (date instanceof Date) {
+      const options = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      return new Intl.DateTimeFormat("en-GB", options).format(date);
+    } else if (date?.seconds) {
+      const options = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      return new Intl.DateTimeFormat("en-GB", options).format(
+        new Date(date.seconds * 1000)
+      );
+    } else {
+      return "Date not available";
+    }
   };
 
   const formattedDate = post.createdAt
@@ -47,32 +68,51 @@ const PostCard = ({ post }) => {
 
   const handleAddComment = async () => {
     if (comment.trim()) {
+      const currentUser = post.author || "Anonymous";
+      const optimisticComment = {
+        text: comment,
+        date: new Date(), // Use local date/time for optimistic UI update
+        author: currentUser,
+      };
+
+      // Optimistically update the UI
+      setComments([...comments, optimisticComment]);
+      setComment(""); // Clear the comment input right away
+
       try {
         const postRef = doc(db, "posts", post.id);
 
-        // Ensure author is a string; adjust according to your user system
-        const currentUser = post.author || "Anonymous";
-        const newComment = {
-          text: comment,
-          date: serverTimestamp(), // Correct usage of serverTimestamp
-          author: currentUser // Ensure this is a string
-        };
-
-        // Add the comment to Firestore
+        // Update the document with serverTimestamp
         await updateDoc(postRef, {
-          comments: arrayUnion(newComment)
+          commentTimestamp: serverTimestamp(),
         });
 
-        // Re-fetch comments after adding
+        // Get the updated timestamp from Firestore
         const postDoc = await getDoc(postRef);
+        const currentTimestamp = postDoc.data().commentTimestamp;
+
+        // Create the new comment with the correct timestamp from Firestore
+        const newComment = {
+          text: comment,
+          date: currentTimestamp, // Use the fetched server timestamp
+          author: currentUser,
+        };
+
+        // Add the new comment to Firestore using arrayUnion
+        await updateDoc(postRef, {
+          comments: arrayUnion(newComment),
+        });
+
+        // Re-fetch comments to ensure everything is synced
         if (postDoc.exists()) {
           setComments(postDoc.data().comments || []);
         }
-
-        // Clear the comment input
-        setComment("");
       } catch (error) {
         console.error("Error adding comment: ", error);
+        // If an error occurs, remove the optimistic comment (optional)
+        setComments((prevComments) =>
+          prevComments.filter((c) => c !== optimisticComment)
+        );
       }
     }
   };
@@ -149,7 +189,7 @@ const PostCard = ({ post }) => {
                 <span className="text-gray-600 dark:text-gray-400">{c.text}</span>
               </div>
               <p className="text-gray-500 dark:text-gray-400 text-sm">
-                {c.date ? formatDate(new Date(c.date.seconds * 1000)) : "Date not available"}
+                {c.date ? formatDate(c.date) : "Date not available"}
               </p>
             </div>
           ))
