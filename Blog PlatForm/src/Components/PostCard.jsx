@@ -22,7 +22,7 @@ const PostCard = ({ post }) => {
           setComments(data.comments || []);
           setLikes(data.likes || 0);
           setDislikes(data.dislikes || 0);
-          const currentUser = post.author || "Anonymous"; // Replace with actual user ID
+          const currentUser =  post.author || "Anonymous";  // Replace with actual user ID
           setHasLiked(data.likers?.includes(currentUser) || false);
           setHasDisliked(data.dislikers?.includes(currentUser) || false);
         } else {
@@ -150,7 +150,7 @@ const PostCard = ({ post }) => {
   const handleDislike = async () => {
     try {
       const postRef = doc(db, "posts", post.id);
-      const currentUser = post.author || "Anonymous"; // Replace with actual user ID
+      const currentUser =  post.author || "Anonymous";  // Replace with actual user ID
 
       if (hasDisliked) {
         await updateDoc(postRef, {
