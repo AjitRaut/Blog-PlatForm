@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { doc, updateDoc, arrayUnion, arrayRemove, increment, getDoc } from "firebase/firestore";
@@ -161,11 +162,9 @@ const PostCard = ({ post }) => {
     }
   };
   
-  const formattedDate = formatDate(post.date);
-
   return (
     <div className="bg-white dark:bg-gray-800 shadow-md p-4 rounded-md mb-4">
-      <PostContent post={post} formattedDate={formattedDate} />
+      <PostContent post={post} />
       <LikeDislikeButtons
         likes={likes}
         dislikes={dislikes}

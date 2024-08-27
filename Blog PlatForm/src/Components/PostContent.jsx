@@ -1,11 +1,41 @@
 import React, { useState } from "react";
 
-const PostContent = ({ post, formattedDate }) => {
+const PostContent = ({ post }) => {
   const [showFullContent, setShowFullContent] = useState(false);
 
   const toggleContent = () => {
     setShowFullContent(!showFullContent);
   };
+
+  const formatDate = (date) => {
+    if (date instanceof Date) {
+      const options = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      return new Intl.DateTimeFormat("en-GB", options).format(date);
+    } else if (date?.seconds) {
+      const options = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      return new Intl.DateTimeFormat("en-GB", options).format(
+        new Date(date.seconds * 1000)
+      );
+    } else {
+      return "Date not available";
+    }
+  };
+
+  const formattedDate = post.createdAt
+    ? formatDate(new Date(post.createdAt.toDate()))
+    : "Date not available";
 
   return (
     <div>
