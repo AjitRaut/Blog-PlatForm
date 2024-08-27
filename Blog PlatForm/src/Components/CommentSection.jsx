@@ -34,9 +34,11 @@ const CommentSection = ({
         </p>
         {comments.length > 0 ? (
           <>
-            {comments.slice(0, showAllComments ? comments.length : 3).map((c, index) => (
-              <CommentItem key={index} comment={c} formatDate={formatDate} />
-            ))}
+            {comments
+              .slice(0, showAllComments ? comments.length : 3)
+              .map((c, index) => (
+                <CommentItem key={index} comment={c} formatDate={formatDate} />
+              ))}
             <button
               onClick={toggleComments}
               className="mt-2 text-blue-500 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-800"
