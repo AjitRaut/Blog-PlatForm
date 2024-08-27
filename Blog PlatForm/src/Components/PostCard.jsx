@@ -136,9 +136,13 @@ const PostCard = ({ post }) => {
   };
 
   const formatDate = (date) => {
+  if (date && date.toDate) {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return date.toDate().toLocaleDateString(undefined, options);
-  };
+  } else {
+    return "Date not available";
+  }
+};
 
   const formattedDate = formatDate(post.date);
 
