@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import { FaHeart, FaRegHeart, FaThumbsDown, FaRegThumbsDown } from "react-icons/fa";
 
-const PostLikeDislike = ({ handleLike, handleDislike, likes, dislikes, hasLiked, hasDisliked }) => {
+const LikeDislikeButtons = ({ likes, dislikes, hasLiked, hasDisliked, handleLike, handleDislike }) => {
   return (
     <div className="mt-4 flex space-x-4">
       <button
@@ -20,6 +20,6 @@ const PostLikeDislike = ({ handleLike, handleDislike, likes, dislikes, hasLiked,
       </button>
     </div>
   );
-}
+};
 
-export default PostLikeDislike
+export default LikeDislikeButtons;
