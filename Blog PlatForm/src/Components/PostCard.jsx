@@ -136,9 +136,26 @@ const PostCard = ({ post }) => {
   };
 
   const formatDate = (date) => {
-    if (date && date.toDate) {
-      const options = { year: "numeric", month: "long", day: "2-digit" };
-      return date.toDate().toLocaleDateString(undefined, options);
+    if (date instanceof Date) {
+      const options = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      return new Intl.DateTimeFormat("en-GB", options).format(date);
+    } else if (date?.seconds) {
+      const options = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      return new Intl.DateTimeFormat("en-GB", options).format(
+        new Date(date.seconds * 1000)
+      );
     } else {
       return "Date not available";
     }
