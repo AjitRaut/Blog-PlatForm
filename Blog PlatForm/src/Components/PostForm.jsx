@@ -91,6 +91,7 @@ const PostForm = () => {
                 imageUrl,
                 author: username,
                 category,
+                tags: ['React', 'JavaScript'], 
                 createdAt: new Date(),
             });
             setTitle('');

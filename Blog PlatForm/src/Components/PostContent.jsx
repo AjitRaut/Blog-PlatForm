@@ -49,7 +49,7 @@ const PostContent = ({ post }) => {
           className="w-full h-auto mb-2 rounded"
         />
       )}
-      <p className="text-gray-700 dark:text-gray-300">
+      <p className="text-gray-700 dark:text-gray-300 text-justify">
         {showFullContent
           ? post.content
           : `${post.content.substring(0, 100)}...`}
