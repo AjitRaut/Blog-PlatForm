@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { auth } from "../firebase"; // Import auth from firebase.js
+import { auth } from "../firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import HeroSection from "./HeroSection";
 
 function Navbar() {
   const [user, setUser] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -17,20 +18,20 @@ function Navbar() {
     return () => unsubscribe();
   }, []);
 
-  // Close dropdown when clicking outside
+  // Close profile dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (event.target.closest(".profile-dropdown") === null) {
-        setIsMenuOpen(false);
+        setIsProfileMenuOpen(false);
       }
     }
-    if (isMenuOpen) {
+    if (isProfileMenuOpen) {
       document.addEventListener("click", handleClickOutside);
     } else {
       document.removeEventListener("click", handleClickOutside);
     }
     return () => document.removeEventListener("click", handleClickOutside);
-  }, [isMenuOpen]);
+  }, [isProfileMenuOpen]);
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -43,7 +44,6 @@ function Navbar() {
         // Sign-out successful.
       })
       .catch((error) => {
-        // An error happened.
         console.error(error);
       });
   };
@@ -64,30 +64,27 @@ function Navbar() {
             <Link to="/categories" className="text-white hover:text-gray-300">
               Categories
             </Link>
-            <Link to="/tags" className="text-white hover:text-gray-300">
-              Tags
-            </Link>
             {user ? (
               <div className="relative profile-dropdown">
                 <button
                   className="text-white hover:text-gray-300 focus:outline-none"
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                 >
                   Profile
                 </button>
-                {isMenuOpen && (
+                {isProfileMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg shadow-lg">
                     <Link
                       to="/profile"
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={() => setIsProfileMenuOpen(false)}
                     >
                       My Profile
                     </Link>
                     <Link
                       to="/settings"
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={() => setIsProfileMenuOpen(false)}
                     >
                       Settings
                     </Link>
@@ -127,7 +124,7 @@ function Navbar() {
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-white hover:text-gray-300 focus:outline-none"
             >
               ☰
@@ -135,49 +132,42 @@ function Navbar() {
           </div>
         </div>
         {/* Mobile Menu */}
-        {isMenuOpen && (
+        {isMobileMenuOpen && (
           <div className="md:hidden">
             <Link
-              to="/home"
+              to="/"
               className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => setIsMobileMenuOpen(false)}
             >
               Home
             </Link>
             <NavLink
               to="/categories"
               className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => setIsMobileMenuOpen(false)}
             >
               Categories
-            </NavLink>
-            <NavLink
-              to="/tags"
-              className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Tags
             </NavLink>
             {user ? (
               <>
                 <Link
                   to="/profile"
                   className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Profile
                 </Link>
                 <Link
                   to="/settings"
                   className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Settings
                 </Link>
                 <button
                   onClick={() => {
                     handleSignOut();
-                    setIsMenuOpen(false);
+                    setIsMobileMenuOpen(false);
                   }}
                   className="block px-3 py-2 text-left text-white hover:bg-gray-700 rounded-md"
                 >
@@ -189,14 +179,14 @@ function Navbar() {
                 <Link
                   to="/login"
                   className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
                   className="block px-3 py-2 text-white hover:bg-gray-700 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Sign Up
                 </Link>
@@ -207,8 +197,6 @@ function Navbar() {
       </div>
     </nav>
   );
-
-
 }
 
 export default Navbar;
