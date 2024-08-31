@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { doc, updateDoc, arrayUnion, arrayRemove, increment, getDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import PostContent from "./PostContent";
 import LikeDislikeButtons from "./PostLikeDislike";
 import CommentSection from "./CommentSection";
@@ -15,6 +15,9 @@ const PostCard = ({ post }) => {
   const [hasDisliked, setHasDisliked] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
 
+  const auth = getAuth();
+  const currentUserId = auth.currentUser?.uid;
+
   useEffect(() => {
     const fetchPostData = async () => {
       try {
@@ -25,9 +28,9 @@ const PostCard = ({ post }) => {
           setComments(data.comments || []);
           setLikes(data.likes || 0);
           setDislikes(data.dislikes || 0);
-          const currentUser = post.author || "Anonymous";
-          setHasLiked(data.likers?.includes(currentUser) || false);
-          setHasDisliked(data.dislikers?.includes(currentUser) || false);
+          
+          setHasLiked(data.likers?.includes(currentUserId) || false);
+          setHasDisliked(data.dislikers?.includes(currentUserId) || false);
         } else {
           console.log("No such document!");
         }
@@ -37,15 +40,14 @@ const PostCard = ({ post }) => {
     };
 
     fetchPostData();
-  }, [post.id]);
+  }, [post.id, currentUserId]);
 
   const handleAddComment = async () => {
-    if (comment.trim()) {
-      const currentUser = post.author || "Anonymous";
+    if (comment.trim() && currentUserId) {
       const newComment = {
         text: comment,
         date: new Date(),
-        author: currentUser,
+        author: post.author,
       };
 
       setComments((prevComments) => [...prevComments, newComment]);
@@ -69,23 +71,24 @@ const PostCard = ({ post }) => {
   };
 
   const handleLike = async () => {
+    if (!currentUserId) return;
+
     try {
       const postRef = doc(db, "posts", post.id);
-      const currentUser = post.author || "Anonymous";
 
       if (hasLiked) {
         await updateDoc(postRef, {
           likes: increment(-1),
-          likers: arrayRemove(currentUser),
+          likers: arrayRemove(currentUserId),
         });
         setHasLiked(false);
         setLikes(likes > 0 ? likes - 1 : 0);
       } else {
         await updateDoc(postRef, {
           likes: increment(1),
-          likers: arrayUnion(currentUser),
+          likers: arrayUnion(currentUserId),
           dislikes: hasDisliked ? increment(-1) : increment(0),
-          dislikers: hasDisliked ? arrayRemove(currentUser) : arrayUnion(),
+          dislikers: hasDisliked ? arrayRemove(currentUserId) : arrayUnion(),
         });
         setHasLiked(true);
         setLikes(likes + 1);
@@ -101,23 +104,24 @@ const PostCard = ({ post }) => {
   };
 
   const handleDislike = async () => {
+    if (!currentUserId) return;
+
     try {
       const postRef = doc(db, "posts", post.id);
-      const currentUser = post.author || "Anonymous";
 
       if (hasDisliked) {
         await updateDoc(postRef, {
           dislikes: increment(-1),
-          dislikers: arrayRemove(currentUser),
+          dislikers: arrayRemove(currentUserId),
         });
         setHasDisliked(false);
         setDislikes(dislikes > 0 ? dislikes - 1 : 0);
       } else {
         await updateDoc(postRef, {
           dislikes: increment(1),
-          dislikers: arrayUnion(currentUser),
+          dislikers: arrayUnion(currentUserId),
           likes: hasLiked ? increment(-1) : increment(0),
-          likers: hasLiked ? arrayRemove(currentUser) : arrayUnion(),
+          likers: hasLiked ? arrayRemove(currentUserId) : arrayUnion(),
         });
         setHasDisliked(true);
         setDislikes(dislikes + 1);
@@ -135,9 +139,7 @@ const PostCard = ({ post }) => {
   const toggleComments = () => {
     setShowAllComments(!showAllComments);
   };
-  
 
-  
   return (
     <div className="bg-white dark:bg-gray-800 shadow-md p-4 rounded-md mb-4">
       <PostContent post={post} />
