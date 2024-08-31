@@ -25,9 +25,9 @@ const PostCard = ({ post }) => {
           setComments(data.comments || []);
           setLikes(data.likes || 0);
           setDislikes(data.dislikes || 0);
-          const currentUserId = "CURRENT_USER_ID"; // Replace with actual user ID from auth context
-          setHasLiked(data.likers?.includes(currentUserId) || false);
-          setHasDisliked(data.dislikers?.includes(currentUserId) || false);
+          const currentUser = post.author || "Anonymous";
+          setHasLiked(data.likers?.includes(currentUser) || false);
+          setHasDisliked(data.dislikers?.includes(currentUser) || false);
         } else {
           console.log("No such document!");
         }
@@ -35,10 +35,9 @@ const PostCard = ({ post }) => {
         console.error("Error fetching post data: ", error);
       }
     };
-  
+
     fetchPostData();
   }, [post.id]);
-  
 
   const handleAddComment = async () => {
     if (comment.trim()) {
@@ -137,6 +136,8 @@ const PostCard = ({ post }) => {
     setShowAllComments(!showAllComments);
   };
   
+
+  
   return (
     <div className="bg-white dark:bg-gray-800 shadow-md p-4 rounded-md mb-4">
       <PostContent post={post} />
@@ -155,7 +156,6 @@ const PostCard = ({ post }) => {
         handleAddComment={handleAddComment}
         showAllComments={showAllComments}
         toggleComments={toggleComments}
-        formatDate={formatDate}
       />
     </div>
   );

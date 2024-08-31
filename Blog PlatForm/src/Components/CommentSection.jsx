@@ -8,12 +8,38 @@ const CommentSection = ({
   handleAddComment,
   showAllComments,
   toggleComments,
-  formatDate,
+ 
 }) => {
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
 
+
+  const formatDate = (date) => {
+    if (date instanceof Date) {
+      const options = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      return new Intl.DateTimeFormat("en-GB", options).format(date);
+    } else if (date?.seconds) {
+      const options = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      return new Intl.DateTimeFormat("en-GB", options).format(
+        new Date(date.seconds * 1000)
+      );
+    } else {
+      return "Date not available";
+    }
+  };
   return (
     <div className="mt-4">
       <textarea
