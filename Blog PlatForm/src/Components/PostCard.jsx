@@ -25,9 +25,9 @@ const PostCard = ({ post }) => {
           setComments(data.comments || []);
           setLikes(data.likes || 0);
           setDislikes(data.dislikes || 0);
-          const currentUser = post.author || "Anonymous";
-          setHasLiked(data.likers?.includes(currentUser) || false);
-          setHasDisliked(data.dislikers?.includes(currentUser) || false);
+          const currentUserId = "CURRENT_USER_ID"; // Replace with actual user ID from auth context
+          setHasLiked(data.likers?.includes(currentUserId) || false);
+          setHasDisliked(data.dislikers?.includes(currentUserId) || false);
         } else {
           console.log("No such document!");
         }
@@ -35,9 +35,10 @@ const PostCard = ({ post }) => {
         console.error("Error fetching post data: ", error);
       }
     };
-
+  
     fetchPostData();
   }, [post.id]);
+  
 
   const handleAddComment = async () => {
     if (comment.trim()) {
@@ -134,32 +135,6 @@ const PostCard = ({ post }) => {
 
   const toggleComments = () => {
     setShowAllComments(!showAllComments);
-  };
-
-  const formatDate = (date) => {
-    if (date instanceof Date) {
-      const options = {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      };
-      return new Intl.DateTimeFormat("en-GB", options).format(date);
-    } else if (date?.seconds) {
-      const options = {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      };
-      return new Intl.DateTimeFormat("en-GB", options).format(
-        new Date(date.seconds * 1000)
-      );
-    } else {
-      return "Date not available";
-    }
   };
   
   return (
