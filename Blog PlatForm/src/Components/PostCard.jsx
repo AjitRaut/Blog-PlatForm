@@ -13,7 +13,6 @@ const PostCard = ({ post }) => {
   const [dislikes, setDislikes] = useState(post.dislikes || 0);
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
-  const [showAllComments, setShowAllComments] = useState(false);
 
   const auth = getAuth();
   const currentUserId = auth.currentUser?.uid;
@@ -161,10 +160,6 @@ const PostCard = ({ post }) => {
     }
   };
 
-  const toggleComments = () => {
-    setShowAllComments(!showAllComments);
-  };
-
   return (
     <div className="bg-white dark:bg-gray-800 shadow-md p-4 rounded-md mb-4">
       <PostContent post={post} />
@@ -181,8 +176,6 @@ const PostCard = ({ post }) => {
         comments={comments}
         setComment={setComment}
         handleAddComment={handleAddComment}
-        showAllComments={showAllComments}
-        toggleComments={toggleComments}
       />
     </div>
   );

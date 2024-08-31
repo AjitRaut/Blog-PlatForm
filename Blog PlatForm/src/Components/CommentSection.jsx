@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import CommentItem from "./CommentItem";
+useState;
 
 const CommentSection = ({
   comment,
   comments,
   setComment,
   handleAddComment,
-  showAllComments,
-  toggleComments,
- 
 }) => {
+  const [showAllComments, setShowAllComments] = useState(false);
+
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
 
+  const toggleComments = () => {
+    setShowAllComments(!showAllComments);
+  };
 
   const formatDate = (date) => {
     if (date instanceof Date) {
