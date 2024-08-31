@@ -18,6 +18,23 @@ const PostCard = ({ post }) => {
   const auth = getAuth();
   const currentUserId = auth.currentUser?.uid;
 
+  const fetchUserData = async (userId) => {
+    try {
+      const userRef = doc(db, "users", userId);
+      const userDoc = await getDoc(userRef);
+      if (userDoc.exists()) {
+        return userDoc.data().username; // Adjust according to your user document structure
+      } else {
+        console.error("User data not found");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching user data: ", error);
+      return null;
+    }
+  };
+  
+
   useEffect(() => {
     const fetchPostData = async () => {
       try {
@@ -38,38 +55,46 @@ const PostCard = ({ post }) => {
         console.error("Error fetching post data: ", error);
       }
     };
-
+  
     fetchPostData();
   }, [post.id, currentUserId]);
+  
 
   const handleAddComment = async () => {
     if (comment.trim() && currentUserId) {
-      const newComment = {
-        text: comment,
-        date: new Date(),
-        author: post.author,
-      };
-
-      setComments((prevComments) => [...prevComments, newComment]);
-      setComment("");
-
       try {
+        // Fetch the current user's username
+        const username = await fetchUserData(currentUserId);
+        if (!username) {
+          throw new Error("Username not found");
+        }
+  
+        const newComment = {
+          text: comment,
+          date: new Date(),
+          author: username, // Use the username here
+        };
+  
+        setComments((prevComments) => [...prevComments, newComment]);
+        setComment("");
+  
         const postRef = doc(db, "posts", post.id);
         await updateDoc(postRef, {
           comments: arrayUnion(newComment),
         });
-
+  
         const postDoc = await getDoc(postRef);
         if (postDoc.exists()) {
           setComments(postDoc.data().comments || []);
         }
       } catch (error) {
         console.error("Error adding comment: ", error);
+        // Optionally handle the error by reverting state changes
         setComments((prevComments) => prevComments.filter((c) => c !== newComment));
       }
     }
   };
-
+  
   const handleLike = async () => {
     if (!currentUserId) return;
 
