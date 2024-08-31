@@ -7,6 +7,7 @@ import SignupForm from "./Components/SignupForm.jsx";
 import UserProfile from "./Components/UserProfile.jsx";
 import Home from "./Components/Home.jsx";
 import CategoriesSection from "./Components/CategoriesSection.jsx";
+import Settings from "./Components/Settings.jsx";
 
 const AppRouter = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const AppRouter = createBrowserRouter([
         path: "categories",
         element: <CategoriesSection />,
       },
+
       {
         path: "/login",
         element: <LoginForm />,
@@ -32,6 +34,10 @@ const AppRouter = createBrowserRouter([
       {
         path: "/profile",
         element: <UserProfile />,
+      },
+      {
+        path: "/settings",
+        element: <Settings />,
       },
     ],
   },
