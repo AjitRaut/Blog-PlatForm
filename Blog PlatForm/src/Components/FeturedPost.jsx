@@ -22,7 +22,7 @@ const FeaturedPosts = () => {
     return ( posts ? 
         <section className="container mx-auto my-8 px-4">
             <h2 className="text-2xl font-bold mb-6">Featured Posts</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {posts.map(post => (
                     <PostCard key={post.id} post={post} />
                 ))}

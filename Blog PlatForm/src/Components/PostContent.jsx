@@ -42,11 +42,12 @@ const PostContent = ({ post }) => {
       <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
         {post.title}
       </h3>
+
       {post.imageUrl && (
         <img
           src={post.imageUrl}
           alt={post.title}
-          className="w-full h-auto mb-2 rounded"
+          className="w-full h-80 object-cover mb-2 rounded"
         />
       )}
       <p className="text-gray-700 dark:text-gray-300 text-justify">
