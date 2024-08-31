@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { doc, updateDoc, arrayUnion, arrayRemove, increment, getDoc } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  increment,
+  getDoc,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import PostContent from "./PostContent";
 import LikeDislikeButtons from "./PostLikeDislike";
@@ -32,7 +39,6 @@ const PostCard = ({ post }) => {
       return null;
     }
   };
-  
 
   useEffect(() => {
     const fetchPostData = async () => {
@@ -44,7 +50,7 @@ const PostCard = ({ post }) => {
           setComments(data.comments || []);
           setLikes(data.likes || 0);
           setDislikes(data.dislikes || 0);
-          
+
           setHasLiked(data.likers?.includes(currentUserId) || false);
           setHasDisliked(data.dislikers?.includes(currentUserId) || false);
         } else {
@@ -54,10 +60,9 @@ const PostCard = ({ post }) => {
         console.error("Error fetching post data: ", error);
       }
     };
-  
+
     fetchPostData();
   }, [post.id, currentUserId]);
-  
 
   const handleAddComment = async () => {
     if (comment.trim() && currentUserId) {
@@ -67,21 +72,21 @@ const PostCard = ({ post }) => {
         if (!username) {
           throw new Error("Username not found");
         }
-  
+
         const newComment = {
           text: comment,
           date: new Date(),
           author: username, // Use the username here
         };
-  
+
         setComments((prevComments) => [...prevComments, newComment]);
         setComment("");
-  
+
         const postRef = doc(db, "posts", post.id);
         await updateDoc(postRef, {
           comments: arrayUnion(newComment),
         });
-  
+
         const postDoc = await getDoc(postRef);
         if (postDoc.exists()) {
           setComments(postDoc.data().comments || []);
@@ -89,11 +94,13 @@ const PostCard = ({ post }) => {
       } catch (error) {
         console.error("Error adding comment: ", error);
         // Optionally handle the error by reverting state changes
-        setComments((prevComments) => prevComments.filter((c) => c !== newComment));
+        setComments((prevComments) =>
+          prevComments.filter((c) => c !== newComment)
+        );
       }
     }
   };
-  
+
   const handleLike = async () => {
     if (!currentUserId) return;
 

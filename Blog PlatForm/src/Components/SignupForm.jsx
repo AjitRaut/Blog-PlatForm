@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth , db} from "../firebase"; // Adjust import based on your project structure
+import { auth, db } from "../firebase"; // Adjust import based on your project structure
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore"; // Import Firestore functions
 
@@ -21,7 +21,11 @@ function SignupForm() {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       // Store the username in Firestore
@@ -39,15 +43,18 @@ function SignupForm() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Sign Up</h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+          Sign Up
+        </h2>
         <form onSubmit={handleSubmit}>
           {error && (
-            <div className="mb-4 text-red-500 text-center">
-              {error}
-            </div>
+            <div className="mb-4 text-red-500 text-center">{error}</div>
           )}
           <div className="mb-4">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Username
             </label>
             <input
@@ -60,7 +67,10 @@ function SignupForm() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Email Address
             </label>
             <input
@@ -73,7 +83,10 @@ function SignupForm() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Password
             </label>
             <input
@@ -86,7 +99,10 @@ function SignupForm() {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Confirm Password
             </label>
             <input
@@ -106,7 +122,10 @@ function SignupForm() {
           </button>
           <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
             Already have an account?{" "}
-            <Link to="/login" className="text-blue-600 hover:text-blue-700 dark:text-blue-400">
+            <Link
+              to="/login"
+              className="text-blue-600 hover:text-blue-700 dark:text-blue-400"
+            >
               Login
             </Link>
           </p>
