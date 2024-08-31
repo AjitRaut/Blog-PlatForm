@@ -3,7 +3,7 @@ import { auth, db } from '../firebase';
 import { updateEmail, updatePassword, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 
-const Settings = ({ darkMode, toggleDarkMode }) => {
+const Settings = () => {
   const [username, setUsername] = useState(auth.currentUser?.displayName || '');
   const [email, setEmail] = useState(auth.currentUser?.email || '');
   const [password, setPassword] = useState('');
@@ -11,14 +11,17 @@ const Settings = ({ darkMode, toggleDarkMode }) => {
   const handleSaveProfile = async () => {
     try {
       if (auth.currentUser) {
+        // Update Firebase Auth profile
         await updateProfile(auth.currentUser, { displayName: username });
         const userDoc = doc(db, 'users', auth.currentUser.uid);
         await updateDoc(userDoc, { username });
 
+        // Update email if changed
         if (email !== auth.currentUser.email) {
           await updateEmail(auth.currentUser, email);
         }
 
+        // Update password if provided
         if (password) {
           await updatePassword(auth.currentUser, password);
         }
@@ -33,7 +36,7 @@ const Settings = ({ darkMode, toggleDarkMode }) => {
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Settings</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-black">Settings</h2>
 
       <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
         {/* Profile Settings */}
@@ -73,36 +76,6 @@ const Settings = ({ darkMode, toggleDarkMode }) => {
           >
             Save Profile
           </button>
-        </div>
-
-        {/* Dark Mode Toggle */}
-        <div className="mb-6">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Display Settings</h3>
-          <div className="flex items-center mt-4">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
-              Dark Mode
-            </label>
-            <input
-              type="checkbox"
-              checked={darkMode}
-              onChange={toggleDarkMode}
-              className="h-6 w-6"
-            />
-          </div>
-        </div>
-
-        {/* Notification Settings */}
-        <div className="mb-6">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Notification Settings</h3>
-          <div className="flex items-center mt-4">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
-              Email Notifications
-            </label>
-            <input
-              type="checkbox"
-              className="h-6 w-6"
-            />
-          </div>
         </div>
       </div>
     </div>
