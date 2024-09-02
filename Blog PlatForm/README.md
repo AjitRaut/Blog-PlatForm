@@ -1,7 +1,5 @@
 # MyBlog - A Modern Blogging Platform
 
-![MyBlog Logo](https://via.placeholder.com/150) <!-- You can replace this URL with your logo image -->
-
 ## 🚀 Project Overview
 
 **MyBlog** is a modern, responsive blogging platform built using [React](https://reactjs.org/), [Tailwind CSS](https://tailwindcss.com/), and [Firebase](https://firebase.google.com/). The platform allows users to create, edit, and delete blog posts, categorize them, and share their thoughts with the world. The platform supports user authentication and leverages Firebase Firestore for real-time data management.
