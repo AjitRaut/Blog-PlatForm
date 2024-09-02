@@ -36,3 +36,5 @@ MyBlog/
 ├── README.md               # Project documentation
 ├── package.json            # Project dependencies and scripts
 └── tailwind.config.js      # Tailwind CSS configuration
+
+🛠️ Technologies Used
