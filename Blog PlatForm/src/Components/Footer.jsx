@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom"; // or use your routing library
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import logo from "./assets/logo.png"
 
 const Footer = () => {
   return (
@@ -9,7 +10,7 @@ const Footer = () => {
         {/* Logo Section */}
         <div className="flex items-center mb-4 md:mb-0">
           <img
-            src="/path-to-your-logo.png" // Update with your logo path
+            src={logo} // Update with your logo path
             alt="Blog Logo"
             className="h-10"
           />
@@ -17,16 +18,16 @@ const Footer = () => {
 
         {/* Navigation Links */}
         <nav className="flex flex-col md:flex-row mb-4 md:mb-0">
-          <Link to="/about" className="mx-2 hover:underline">
+          <Link to="#" className="mx-2 hover:underline">
             About Us
           </Link>
-          <Link to="/contact" className="mx-2 hover:underline">
+          <Link to="#" className="mx-2 hover:underline">
             Contact
           </Link>
-          <Link to="/privacy-policy" className="mx-2 hover:underline">
+          <Link to="#" className="mx-2 hover:underline">
             Privacy Policy
           </Link>
-          <Link to="/terms-of-service" className="mx-2 hover:underline">
+          <Link to="#" className="mx-2 hover:underline">
             Terms of Service
           </Link>
         </nav>
@@ -62,7 +63,7 @@ const Footer = () => {
 
         <div className="text-sm">
           <p>
-            &copy; {new Date().getFullYear()} Your Blog Name. All rights
+            &copy; {new Date().getFullYear()} MyBlog. All rights
             reserved.
           </p>
         </div>

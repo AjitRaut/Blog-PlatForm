@@ -41,7 +41,7 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto my-28 p-4 bg-white rounded-lg shadow-md">
       <h2 className="text-lg font-semibold text-center">User Profile</h2>
       <div className="flex flex-col items-center">
         <img

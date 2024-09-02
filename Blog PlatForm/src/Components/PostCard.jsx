@@ -12,12 +12,13 @@ import { getAuth } from "firebase/auth";
 import PostContent from "./PostContent";
 import LikeDislikeButtons from "./PostLikeDislike";
 import CommentSection from "./CommentSection";
+import Shimmer from "./ShimmerUi";
 
 const PostCard = ({ post }) => {
   const [comment, setComment] = useState("");
-  const [comments, setComments] = useState(post.comments || []);
-  const [likes, setLikes] = useState(post.likes || 0);
-  const [dislikes, setDislikes] = useState(post.dislikes || 0);
+  const [comments, setComments] = useState(post?.comments || []);
+  const [likes, setLikes] = useState(post?.likes || 0);
+  const [dislikes, setDislikes] = useState(post?.dislikes || 0);
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
 
@@ -166,6 +167,11 @@ const PostCard = ({ post }) => {
       console.error("Error handling dislike: ", error);
     }
   };
+
+  // Render Shimmer if post data is not yet loaded
+  if (!post || Object.keys(post).length === 0) {
+    return <Shimmer />;
+  }
 
   return (
     <div className="bg-white dark:bg-gray-800 shadow-md p-4 rounded-md mb-4">
