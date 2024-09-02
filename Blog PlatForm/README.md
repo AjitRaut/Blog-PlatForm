@@ -18,7 +18,7 @@
 
 Here's an overview of the project's structure:
 
-```plaintext
+```plaintex
 MyBlog/
 │
 ├── public/                 # Static files (index.html, icons, etc.)
@@ -36,5 +36,6 @@ MyBlog/
 ├── README.md               # Project documentation
 ├── package.json            # Project dependencies and scripts
 └── tailwind.config.js      # Tailwind CSS configuration
+```
 
 ### 🛠️ Technologies Used
