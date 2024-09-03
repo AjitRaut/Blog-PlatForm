@@ -157,5 +157,3 @@ If you have any questions or suggestions, feel free to reach out:
 - **Email**: ajitraut9561@gmail.com.
 - **LinkedIn**:  [Ajit Raut](https://www.linkedin.com/in/ajit-raut-b1254222a/).
 - **GitHub**: [Ajit Raut](https://github.com/AjitRaut).
-- **GitHub**: [Ajit Raut](https://github.com/AjitRaut).
-
