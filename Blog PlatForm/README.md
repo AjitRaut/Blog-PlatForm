@@ -14,28 +14,21 @@
 - **Search & Filtering**: Search and filter posts by categories or keywords.
 - **SEO Optimized**: Basic SEO optimization for better visibility on search engines.
 
-<<<<<<< HEAD
+
 ### 🖥️ Live Demo
 
 Check out the live project: [MyBlog](https://myblog-platform.netlify.app/)
 
-=======
 ## Here you See the live project 
 
 https://myblog-platform.netlify.app/
   
->>>>>>> 513898e06b6c11926124e09e366bdeca6348c8a8
 ## 📂 Project Structure
 
 Here's an overview of the project's structure:
 
-<<<<<<< HEAD
 ```plaintext
-=======
 
-```plaintex
-
->>>>>>> 513898e06b6c11926124e09e366bdeca6348c8a8
 MyBlog/
 │
 ├── public/                 # Static files (index.html, icons, etc.)
@@ -62,24 +55,11 @@ MyBlog/
 - **Backend**: Firebase (Authentication, Firestore, Storage).
 - **Deployment**: Netlify.
 
-<<<<<<< HEAD
-
 ## 🔧 Setup & Installation
 Follow these steps to set up the project locally:
 
 ## 1. Clone the Repository
 ```plaintext
-=======
-Frontend: React, Tailwind CSS
-
-Backend: Firebase (Authentication, Firestore, Storage)
-Deployment: Firebase Hosting
-🔧 Setup & Installation
-Clone the repository:
-
-bash
-Copy code
->>>>>>> 513898e06b6c11926124e09e366bdeca6348c8a8
 git clone https://github.com/AjitRaut/Blog-PlatForm.git
 cd Blog-PlatForm
 ```
@@ -89,7 +69,8 @@ cd Blog-PlatForm
 npm install
 ```
 
-3. Set Up Firebase
+## 3. Set Up Firebase
+   
 1. Create a Firebase Project: Go to the Firebase Console and create a new project.
 
 2. Enable Firebase Services:
@@ -120,14 +101,13 @@ npm start
 
 Your app should now be running on http://localhost:3000.
 
-<<<<<<< HEAD
 ## 5. Deploy to Netlify
 To deploy your application to Netlify:
 
-1. Push Your Code to GitHub:
+1. **Push Your Code to GitHub**:
 - Ensure your code is pushed to a GitHub repository.
   
-2. Connect to Netlify:
+2. **Connect to Netlify**:
 
 - Go to Netlify, sign in, and select "New site from Git".
 - Connect your GitHub repository.
@@ -135,41 +115,25 @@ To deploy your application to Netlify:
   - Build Command: npm run build
   - Publish Directory: build
   - 
-3.Deploy:
+3. **Deploy**:
 
 - Click "Deploy Site" and wait for the build process to complete.
   
-4. Custom Domain (Optional):
+4. **Custom Domain (Optional)**:
 
 - If you have a custom domain, you can set it up in the "Domain settings" on Netlify.
   
-6. Handle 404 Errors
+## 6. Handle 404 Errors
+
 To prevent "Page Not Found" errors on Netlify when navigating directly to routes other than /, create a _redirects file:
 
 1.In the public directory, create a file named _redirects.
-=======
-📖 Usage
-Creating a Post: Log in to your account, navigate to the "Create a Post" section, enter the post details, and hit "Publish".
-Editing a Post: Go to your profile, select the post you want to edit, make the necessary changes, and save.
-Deleting a Post: You can delete your post directly from your profile.
-🤝 Contributing
-Contributions are welcome! Please feel free to submit a pull request or open an issue if you find any bugs or have suggestions for improvements.
-
-Contribution Guidelines
-Fork the repository.
-Create a new branch (git checkout -b feature-name).
-Commit your changes (git commit -m 'Add some feature').
-Push to the branch (git push origin feature-name).
-Open a pull request.
-
->>>>>>> 513898e06b6c11926124e09e366bdeca6348c8a8
 
 2.Add the following line:
 ```plaintext
 /* /index.html 200
 ```
 
-<<<<<<< HEAD
 This tells Netlify to serve index.html for all routes, allowing React Router to handle routing.
 
 ## 📖 Usage
@@ -191,12 +155,5 @@ Contributions are welcome! Follow these steps to contribute:
 If you have any questions or suggestions, feel free to reach out:
 
 - **Email**: ajitraut9561@gmail.com.
-- **LinkedIn**: Ajit Raut.
-- **GitHub**: Ajit Raut
-=======
-Email: ajitraut9561@gmail.com
-
-LinkedIn: https://www.linkedin.com/in/ajit-raut-b1254222a/
-
-GitHub: https://github.com/AjitRaut
->>>>>>> 513898e06b6c11926124e09e366bdeca6348c8a8
+- **LinkedIn**:  [Ajit Raut](https://www.linkedin.com/in/ajit-raut-b1254222a/).
+- **GitHub**: [Ajit Raut](https://github.com/AjitRaut).
