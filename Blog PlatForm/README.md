@@ -13,6 +13,10 @@
 - **Image Uploads**: Upload and manage images for your posts using Firebase Storage.
 - **Search & Filtering**: Easily search and filter posts by categories or keywords.
 - **SEO Optimized**: Basic SEO optimization for better visibility on search engines.
+
+## Here you See the live project 
+
+https://myblog-platform.netlify.app/
   
 ## 📂 Project Structure
 
@@ -38,10 +42,7 @@ MyBlog/
 ├── README.md               # Project documentation
 ├── package.json            # Project dependencies and scripts
 └── tailwind.config.js      # Tailwind CSS configuration
-<<<<<<< HEAD
 
-## 🛠️ Technologies Used
-=======
 ```
 
 ### 🛠️ Technologies Used
@@ -87,10 +88,6 @@ bash
 Copy code
 npm start
 Your app should now be running on http://localhost:3000.
-
-##Here you See the project 
-
-https://myblog-platform.netlify.app/
 
 📖 Usage
 Creating a Post: Log in to your account, navigate to the "Create a Post" section, enter the post details, and hit "Publish".
