@@ -123,5 +123,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 Feel free to reach out if you have any questions or suggestions:
 
 Email: ajitraut9561@gmail.com
+
 LinkedIn: https://www.linkedin.com/in/ajit-raut-b1254222a/
+
 GitHub:
