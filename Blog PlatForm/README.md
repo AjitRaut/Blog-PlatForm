@@ -88,20 +88,9 @@ Copy code
 npm start
 Your app should now be running on http://localhost:3000.
 
-🚀 Deployment
-To deploy the app on Firebase Hosting:
+##Here you See the project 
 
-Build the app:
-
-bash
-Copy code
-npm run build
-Deploy to Firebase:
-
-bash
-Copy code
-firebase deploy
-Ensure you have the Firebase CLI installed and configured.
+https://myblog-platform.netlify.app/
 
 📖 Usage
 Creating a Post: Log in to your account, navigate to the "Create a Post" section, enter the post details, and hit "Publish".
@@ -116,8 +105,7 @@ Create a new branch (git checkout -b feature-name).
 Commit your changes (git commit -m 'Add some feature').
 Push to the branch (git push origin feature-name).
 Open a pull request.
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+
 
 📧 Contact
 Feel free to reach out if you have any questions or suggestions:
