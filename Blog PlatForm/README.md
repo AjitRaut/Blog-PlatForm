@@ -47,11 +47,8 @@ MyBlog/
 
 ### 🛠️ Technologies Used
 
-
-
-
-🛠️ Technologies Used
 Frontend: React, Tailwind CSS
+
 Backend: Firebase (Authentication, Firestore, Storage)
 Deployment: Firebase Hosting
 🔧 Setup & Installation
