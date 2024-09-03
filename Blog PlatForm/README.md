@@ -52,7 +52,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/yourusername/myblog.git
+git clone https://github.com/AjitRaut/Blog-PlatForm.git
 cd myblog
 Install dependencies:
 
