@@ -126,4 +126,3 @@ Feel free to reach out if you have any questions or suggestions:
 Email: your.email@example.com
 LinkedIn: Your LinkedIn
 GitHub: Your GitHub
->>>>>>> 8c66683a5d7a8fbc6484e73d34841c75ac0ea480
