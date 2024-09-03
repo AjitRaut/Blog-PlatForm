@@ -21,7 +21,7 @@ Here's an overview of the project's structure:
 <<<<<<< HEAD
 =======
 ```plaintex
->>>>>>> 8c66683a5d7a8fbc6484e73d34841c75ac0ea480
+
 MyBlog/
 │
 ├── public/                 # Static files (index.html, icons, etc.)
